@@ -1,0 +1,27 @@
+{
+  "name": "amasearch",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch"
+  },
+  "keywords": [],
+  "author": "David Gootman",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/lodash": "^4.14.194",
+    "@types/react-dom": "^18.2.4",
+    "html-webpack-plugin": "^5.5.1",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
+    "webpack-cli": "^5.0.2"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
