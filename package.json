@@ -1,5 +1,5 @@
 {
-  "name": "amasearch",
+  "name": "asearch",
   "version": "1.0.0",
   "description": "",
   "private": true,
@@ -22,10 +22,13 @@
     "webpack-cli": "^5.0.2"
   },
   "dependencies": {
+    "@cloudscape-design/collection-hooks": "^1.0.21",
+    "@cloudscape-design/components": "^3.0.270",
+    "@cloudscape-design/global-styles": "^1.0.9",
     "bootstrap": "^5.2.3",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.7.4",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "styled-components": "^5.3.10"
   }
 }
