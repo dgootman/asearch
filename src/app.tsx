@@ -28,6 +28,7 @@ class AmazonResult {
   number_of_reviews: number;
 
   // Derived data
+  num: number;
   price_value: number;
 }
 
@@ -52,7 +53,8 @@ export const App = () => {
       const fetchResults = async () => {
         const searchResponse = await fetch("/api/search?" + params.toString());
         const searchResults = (await searchResponse.json()) as AmazonResult[];
-        searchResults.forEach((result) => {
+        searchResults.forEach((result, index) => {
+          result.num = index + 1;
           result.price_value = result.price
             ? parseFloat(result.price.replace("$", ""))
             : null;
@@ -78,6 +80,12 @@ export const App = () => {
       cell: (row) => (
         <img src={row.img} style={{ maxWidth: 64, maxHeight: 64 }} />
       ),
+    },
+    {
+      id: "num",
+      header: "#",
+      cell: (row) => row.num,
+      sortingField: "num",
     },
     {
       id: "item",
