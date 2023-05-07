@@ -15,6 +15,7 @@ import {
 } from "@cloudscape-design/components";
 import { OptionDefinition } from "@cloudscape-design/components/internal/components/option/interfaces";
 import React, { FormEvent, useState } from "react";
+import useLocalStorageState from "use-local-storage-state";
 
 class AmazonResult {
   // Raw data
@@ -32,10 +33,12 @@ class AmazonResult {
 
 export const App = () => {
   const [query, setQuery] = useState("");
-  const [country, setCountry] = useState({
-    label: "🇨🇦 Canada",
-    value: "CA",
-  } as OptionDefinition);
+  const [country, setCountry] = useLocalStorageState("ctry", {
+    defaultValue: {
+      label: "🇨🇦 Canada",
+      value: "CA",
+    } as OptionDefinition,
+  });
   const [results, setResults] = useState([]);
   const [resultsLoading, setResultsLoading] = useState(false);
 
@@ -120,7 +123,7 @@ export const App = () => {
       toolsHide
       content={
         <ContentLayout
-          header={<Header variant="h1">ASearch: A better Amazon search</Header>}
+          header={<Header variant="h1">ASearch: a better Amazon search</Header>}
         >
           <SpaceBetween size="m">
             <Container>
