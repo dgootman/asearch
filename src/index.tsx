@@ -1,7 +1,7 @@
 import "@cloudscape-design/global-styles/index.css"
 import React from "react";
 import { createRoot } from 'react-dom/client';
-import { App } from "./App";
+import { App } from "./app";
 
 // Clear the existing HTML content
 document.body.innerHTML = '<div id="app"></div>';

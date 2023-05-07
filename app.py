@@ -13,6 +13,8 @@ from requests import HTTPError
 
 MAX_PAGES = 50
 
+DOMAINS = {"CA": "ca", "US": "com"}
+
 
 def __response_hook(r, *args, **kwargs):
     try:
@@ -54,8 +56,9 @@ def ping():
 
 @app.get("/api/search")
 @cache(expire=600)
-def search(q: str):
-    site = "amazon.ca"
+def search(q: str, ctry: str = "CA"):
+    domain = DOMAINS[ctry]
+    site = f"amazon.{domain}"
     url = f"https://{site}/s?k={q}"
 
     soup = BeautifulSoup(get(url).content, "html.parser")
@@ -75,9 +78,11 @@ def search(q: str):
         results = []
         for div in divs:
             result = {}
-            result["asin"] = div["data-asin"]
+            asin = div["data-asin"]
+            result["asin"] = asin
             result["img"] = div.find("img", "s-image")["src"]
             result["description"] = div.find("h2").text.strip()
+            result["link"] = f"https://{site}/dp/{asin}"
             price = div.find("span", "a-price")
             if price:
                 result["price"] = price.find("span", "a-offscreen").text

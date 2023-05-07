@@ -1,24 +1,26 @@
 import { useCollection } from "@cloudscape-design/collection-hooks";
 import {
   AppLayout,
-  Box,
   Container,
   ContentLayout,
+  Grid,
   Header,
   Input,
   Link,
+  Select,
   SpaceBetween,
   Table,
   TableProps,
   TextFilter,
-  TopNavigation,
 } from "@cloudscape-design/components";
-import React, { FormEvent, ReactNode, useState } from "react";
+import { OptionDefinition } from "@cloudscape-design/components/internal/components/option/interfaces";
+import React, { FormEvent, useState } from "react";
 
 class AmazonResult {
   // Raw data
   asin: string;
   description: string;
+  link: string;
   img: string;
   price: string;
   rating: number;
@@ -30,6 +32,10 @@ class AmazonResult {
 
 export const App = () => {
   const [query, setQuery] = useState("");
+  const [country, setCountry] = useState({
+    label: "🇨🇦 Canada",
+    value: "CA",
+  } as OptionDefinition);
   const [results, setResults] = useState([]);
   const [resultsLoading, setResultsLoading] = useState(false);
 
@@ -37,6 +43,7 @@ export const App = () => {
     if (query) {
       const params = new URLSearchParams({
         q: query,
+        ctry: country.value,
       });
 
       const fetchResults = async () => {
@@ -72,9 +79,7 @@ export const App = () => {
     {
       id: "item",
       header: "Item",
-      cell: (row) => (
-        <Link href={`https://amazon.ca/dp/${row.asin}`}>{row.description}</Link>
-      ),
+      cell: (row) => <Link href={row.link}>{row.description}</Link>,
       sortingField: "description",
     },
     {
@@ -119,14 +124,33 @@ export const App = () => {
         >
           <SpaceBetween size="m">
             <Container>
-              <Input
-                placeholder="Search..."
-                value={query}
-                onChange={(event) => setQuery(event.detail.value)}
-                onKeyDown={({ detail }) => {
-                  if (detail.key == "Enter") search();
-                }}
-              />
+              <Grid
+                gridDefinition={[
+                  { colspan: { default: 12, xxs: 8, xs: 9, s: 10 } },
+                  { colspan: { default: 12, xxs: 4, xs: 3, s: 2 } },
+                ]}
+              >
+                <Input
+                  placeholder="Search..."
+                  inputMode="search"
+                  type="search"
+                  autoComplete
+                  autoFocus
+                  value={query}
+                  onChange={(event) => setQuery(event.detail.value)}
+                  onKeyDown={({ detail }) => {
+                    if (detail.key == "Enter") search();
+                  }}
+                />
+                <Select
+                  selectedOption={country}
+                  onChange={({ detail }) => setCountry(detail.selectedOption)}
+                  options={[
+                    { label: "🇨🇦 Canada", value: "CA" },
+                    { label: "🇺🇸 United States", value: "US" },
+                  ]}
+                />
+              </Grid>
             </Container>
             <Table
               {...collectionProps}
