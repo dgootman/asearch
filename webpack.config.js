@@ -9,6 +9,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'ASearch',
+            favicon: './src/favicon.png',
         }),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash:8].css',
