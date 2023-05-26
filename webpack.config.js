@@ -19,15 +19,21 @@ module.exports = {
             },
             {
                 test: /\.css$/i,
-                use: ["style-loader", "css-loader"],
+                use: ['style-loader', 'css-loader'],
             },
         ],
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },
+    optimization: {
+        splitChunks: {
+            // include all types of chunks
+            chunks: 'all',
+        },
+    },
     output: {
-        filename: 'bundle.js',
+        filename: '[name].[chunkhash:8].js',
         path: path.resolve(__dirname, 'dist'),
         clean: true,
     },
