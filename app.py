@@ -77,37 +77,41 @@ def search(q: str, ctry: str = "CA"):
 
         results = []
         for div in divs:
-            result = {}
-            asin = div["data-asin"]
-            result["asin"] = asin
-            result["img"] = div.find("img", "s-image")["src"]
-            result["description"] = div.find("h2").text.strip()
-            result["link"] = f"https://{site}/dp/{asin}"
-            price = div.find("span", "a-price")
-            if price:
-                result["price"] = price.find("span", "a-offscreen").text
+            try:
+                result = {}
+                asin = div["data-asin"]
+                result["asin"] = asin
+                result["img"] = div.find("img", "s-image")["src"]
+                result["description"] = div.find("h2").text.strip()
+                result["link"] = f"https://{site}/dp/{asin}"
+                price = div.find("span", "a-price")
+                if price:
+                    result["price"] = price.find("span", "a-offscreen").text
 
-            rating = div.find(
-                "span",
-                attrs={
-                    "aria-label": lambda l: l and re.fullmatch(".* out of .* stars", l)
-                },
-            )
-            if rating:
-                result["rating"] = float(rating["aria-label"].split(" ")[0])
-            number_of_reviews = div.find(
-                "a", href=lambda h: h.endswith("#customerReviews")
-            )
-            if number_of_reviews:
-                result["number_of_reviews"] = int(
-                    number_of_reviews.text.strip()
-                    .replace(",", "")
-                    .replace("(", "")
-                    .replace(")", "")
+                rating = div.find(
+                    "span",
+                    attrs={
+                        "aria-label": lambda l: l
+                        and re.fullmatch(".* out of .* stars", l)
+                    },
                 )
+                if rating:
+                    result["rating"] = float(rating["aria-label"].split(" ")[0])
+                number_of_reviews = div.find(
+                    "a", href=lambda h: h.endswith("#customerReviews")
+                )
+                if number_of_reviews:
+                    result["number_of_reviews"] = int(
+                        number_of_reviews.text.strip()
+                        .replace(",", "")
+                        .replace("(", "")
+                        .replace(")", "")
+                    )
 
-            yield result
-            # results.append(result)
+                yield result
+                # results.append(result)
+            except Exception as e:
+                raise RuntimeError(f"Failed to process div: {div}") from e
 
         return results
 
