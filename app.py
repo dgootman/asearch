@@ -82,7 +82,9 @@ def search(q: str, ctry: str = "CA"):
                 asin = div["data-asin"]
                 result["asin"] = asin
                 result["img"] = div.find("img", "s-image")["src"]
-                result["description"] = [h2.text.strip() for h2 in div.find_all("h2")]
+                result["description"] = ": ".join(
+                    h2.text.strip() for h2 in div.find_all("h2")
+                )
                 result["link"] = f"https://{site}/dp/{asin}"
                 price = div.find("span", "a-price")
                 if price:
