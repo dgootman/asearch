@@ -1,0 +1,9 @@
+services:
+  asearch:
+    build: .
+    container_name: asearch
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.asearch.rule=Host(`asearch.gootman.ca`)
+      - traefik.http.routers.asearch.entrypoints=websecure
