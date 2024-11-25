@@ -79,7 +79,9 @@ def search_iter(q: str, ctry: str = "CA"):
                 price = div.find("span", "a-price")
                 if price:
                     result["price"] = float(
-                        price.find("span", "a-offscreen").text.replace("$", "")
+                        price.find("span", "a-offscreen")
+                        .text.replace("$", "")
+                        .replace(",", "")
                     )
 
                 rating = div.find(
