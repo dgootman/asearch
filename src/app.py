@@ -155,7 +155,11 @@ with st.form("form", border=False):
 
     submitted = col2.form_submit_button("Search", use_container_width=True)
     if submitted:
+        logger.info(f"Searching: {query}")
+
         results = search(query)
+
+        logger.debug(f"Results: {len(results)}")
 
         gb = GridOptionsBuilder()
         gb.configure_default_column(resizable=False, filter=True, width=100)
