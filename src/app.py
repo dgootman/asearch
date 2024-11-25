@@ -144,20 +144,33 @@ product_renderer = JsCode(
 
 st.set_page_config(page_title="ASearch", page_icon="static/favicon.png", layout="wide")
 
-st.markdown("# ![](/app/static/favicon_64x64.png) ASearch")
+col1, col2 = st.columns([8, 2])
+
+col1.markdown("# ![](/app/static/favicon_64x64.png) ASearch")
+country = col2.selectbox(
+    "Country",
+    DOMAINS.keys(),
+    label_visibility="collapsed",
+    format_func={"CA": "🇨🇦 Canada", "US": "🇺🇸 United States"}.get,
+)
+domain = DOMAINS[country]
 
 with st.form("form", border=False):
     col1, col2 = st.columns([9, 1])
 
     query = col1.text_input(
-        "Search", label_visibility="collapsed", placeholder="Search Amazon"
+        "Search",
+        label_visibility="collapsed",
+        placeholder=f"Search Amazon.{domain}",
     )
 
-    submitted = col2.form_submit_button("Search", use_container_width=True)
+    submitted = col2.form_submit_button(
+        "Search", type="primary", use_container_width=True
+    )
     if submitted:
-        logger.info(f"Searching: {query}")
+        logger.info(f"Searching Amazon.{domain}: {query}")
 
-        results = search(query)
+        results = search(query, country)
 
         logger.debug(f"Results: {len(results)}")
 
