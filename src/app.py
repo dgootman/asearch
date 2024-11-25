@@ -125,7 +125,7 @@ product_renderer = JsCode(
                 const div = document.createElement("div");
                 div.style = "display: flex; gap: 10px;";
                 div.innerHTML = `
-                <div style="min-width: 128px; display: flex; flex-direction: row-reverse;">
+                <div style="min-width: 128px; display: flex; justify-content: center; background: white;">
                     <a href="${params.data.link}" target="_blank">
                         <img src="${params.data.img}" style="max-height: 128px; max-width: 128px"/>
                     </a>
